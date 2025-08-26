@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Zabeth's Gourmet</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/global.css">
+  
+</head>
+<body>
+
+    <main class="container-principal">
+        <aside class="coluna-ilustracao">
+            <div class="conteudo-ilustracao">
+                <img src="../assets/logo-zabeths.png" alt="Logo Zabeth's Gourmet" class="logo-grande">
+                <h1>Bem-vindo(a) de volta!</h1>
+                <p>O sabor que você ama, a um clique de distância.</p>
+            </div>
+        </aside>
+
+        <section class="coluna-formulario">
+            <div class="conteudo-formulario">
+                <img src="../assets/logo-zabeths.png" alt="Logo Zabeth's Gourmet" class="logo-pequeno">
+ <div id="mensagem-feedback"></div>
+                <nav class="abas">
+                    <button id="aba-login" class="aba ativa" type="button">LOGIN</button>
+                    <button id="aba-cadastro" class="aba" type="button">CRIAR CONTA</button>
+                </nav>
+
+                <form id="form-login" class="formulario ativo" action="../php/login.php" method="POST">
+                    <div class="grupo-input">
+                        <label for="login-email-tel">EMAIL OU TELEFONE</label>
+                        <input type="text" id="login-email-tel" name="email-ou-telefone" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label for="login-senha">SENHA</label>
+                        <input type="password" id="login-senha" name="senha-login" required>
+                    </div>
+                    <a href="#" class="link-esqueci-senha">ESQUECI MINHA SENHA</a>
+
+                    <button type="submit" class="btn-principal">ENTRAR</button>
+
+                    <div class="divisor">
+                        <span>ou</span>
+                    </div>
+
+                    <a href="#" class="btn-social google">
+                        <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google icon"/>
+                        ENTRAR COM GOOGLE
+                    </a>
+                    <a href="#" class="btn-social whatsapp">
+                         <img src="https://img.icons8.com/color/16/000000/whatsapp--v1.png" alt="WhatsApp icon"/>
+                        ENTRAR COM WHATSAPP
+                    </a>
+                </form>
+
+                <form id="form-cadastro" class="formulario" action="../php/cadastro.php" method="POST">
+                    <div class="grupo-input">
+                        <label for="cad-nome">NOME COMPLETO</label>
+                        <input type="text" id="cad-nome" name="nome-completo" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label for="cad-tel">TELEFONE</label>
+                        <input type="tel" id="cad-tel" name="telefone-cadastro" required>
+                    </div>
+                     <div class="grupo-input">
+                        <label for="cad-email">EMAIL</label>
+                        <input type="email" id="cad-email" name="email-cadastro" required>
+                    </div>
+                    <div class="grupo-input">
+                        <label for="cad-senha">SENHA</label>
+                        <input type="password" id="cad-senha" name="senha-cadastro" required>
+                    </div>
+                    <div class="grupo-termos">
+                        <input type="checkbox" id="aceito-termos" name="aceito-termos" required>
+                        <label for="aceito-termos">Aceito os Termos e Condições</label>
+                    </div>
+                    <button type="submit" class="btn-principal">CRIAR CONTA</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/login.js"></script>
+</body>
+</html>
