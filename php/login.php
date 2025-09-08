@@ -1,7 +1,7 @@
 <?php
 session_start();
 require 'conexao.php';
-
+<!--Fazer sanitização dos dados !-->
 $email = $_POST['email-ou-telefone'];
 $senha = $_POST['senha-login'];
 
