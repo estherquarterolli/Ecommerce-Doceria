@@ -6,7 +6,8 @@ $allowed_pages = [
     'clientes_list', 'clientes_form', 'clientes_delete',
     'produtos_list', 'produtos_form', 'produtos_delete',
     'pedidos_list', 'itens_pedido_list',
-    'categorias_list', 'categorias_form', 'categorias_delete' 
+    'categorias_list', 'categorias_form', 'categorias_delete',
+    'cupons_list', 'cupons_form', 'cupons_delete', 'cupons_produtos'
 ];
 
 $page = $_GET['page'] ?? 'clientes_list';
