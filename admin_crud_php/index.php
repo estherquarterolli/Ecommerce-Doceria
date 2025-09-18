@@ -20,7 +20,8 @@ if (!in_array($page, $allowed_pages, true)) $page = 'clientes_list';
 <nav>
   <a href="index.php?page=clientes_list">Clientes</a> |
   <a href="index.php?page=produtos_list">Produtos</a> |
-   <a href="index.php?page=categorias_list">Categorias</a> |
+  <a href="index.php?page=cupons_list">Cupons</a> |
+  <a href="index.php?page=categorias_list">Categorias</a> |
   <a href="index.php?page=pedidos_list">Pedidos</a>
 </nav>
 <hr>

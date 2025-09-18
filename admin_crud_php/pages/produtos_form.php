@@ -97,7 +97,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <label for="preco">Preço</label><br>
     <input id="preco" name="preco" type="number" step="0.01" min="0" required value="<?=htmlspecialchars($preco)?>"><br><br>
+    // Adicionar após o campo de preço
+    <label>Em Promoção<br>
+        <input type="checkbox" name="em_promocao" id="em_promocao" <?=$em_promocao ? 'checked' : ''?> onchange="toggleCamposPromocao()">
+        <label for="em_promocao">Produto em promoção</label>
+    </label>
 
+    <div id="campos_promocao" style="<?=$em_promocao ? '' : 'display: none;'?>">
+        <label>Preço Original (R$)<br><input name="preco_original" type="number" step="0.01" min="0" value="<?=htmlspecialchars($preco_original)?>"></label>
+        <label>Data de Início da Promoção<br><input name="data_inicio_promocao" type="date" value="<?=htmlspecialchars($data_inicio_promocao)?>"></label>
+        <label>Data de Fim da Promoção<br><input name="data_fim_promocao" type="date" value="<?=htmlspecialchars($data_fim_promocao)?>"></label>
+    </div>
     <label for="foto">Foto (URL)</label><br>
     <input id="foto" name="foto" value="<?=htmlspecialchars($foto)?>"><br><br>
 
@@ -132,6 +142,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </form>
 
 <script>
+
+function toggleCamposPromocao() {
+    const emPromocao = document.getElementById('em_promocao').checked;
+    document.getElementById('campos_promocao').style.display = emPromocao ? 'block' : 'none';
+}
+
 function carregarSubcategorias() {
     var categoriaId = document.getElementById('categoria_id').value;
     var subcategoriaSelect = document.getElementById('subcategoria_id');
