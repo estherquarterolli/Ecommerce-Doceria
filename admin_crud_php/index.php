@@ -5,7 +5,8 @@ require_login();
 $allowed_pages = [
     'clientes_list', 'clientes_form', 'clientes_delete',
     'produtos_list', 'produtos_form', 'produtos_delete',
-    'pedidos_list', 'itens_pedido_list'
+    'pedidos_list', 'itens_pedido_list',
+    'categorias_list', 'categorias_form', 'categorias_delete' 
 ];
 
 $page = $_GET['page'] ?? 'clientes_list';
@@ -19,6 +20,7 @@ if (!in_array($page, $allowed_pages, true)) $page = 'clientes_list';
 <nav>
   <a href="index.php?page=clientes_list">Clientes</a> |
   <a href="index.php?page=produtos_list">Produtos</a> |
+   <a href="index.php?page=categorias_list">Categorias</a> |
   <a href="index.php?page=pedidos_list">Pedidos</a>
 </nav>
 <hr>
