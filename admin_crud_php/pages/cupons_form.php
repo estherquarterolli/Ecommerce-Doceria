@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <label>Uso Máximo (deixe em branco para ilimitado)<br><input name="uso_maximo" type="number" min="1" value="<?=htmlspecialchars($uso_maximo)?>"></label>
     
     <label><input type="checkbox" name="ativo" <?=$ativo ? 'checked' : ''?>> Ativo</label>
-    <label><input type="checkbox" name="aplicacao_automatica" <?=$aplicacao_automatica ? 'checked' : ''?>> Aplicação Automática</label>
+    <label><input type="checkbox" name="aplicacao_automatica" <?=$aplicacao_automatica ? 'checked' : ''?>> Aplicação Automática (Para não ser necessário a aplicação manual pelo cliente)</label>
 
     <button class="btn primary" type="submit">Salvar</button>
     <a class="btn" href="index.php?page=cupons_list">Cancelar</a>
