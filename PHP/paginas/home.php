@@ -24,7 +24,7 @@ $dadosUsuario = $usuarioModel->buscarPorId($usuarioAtual['id']);
         <header class="header-home">
             <div class="area-usuario">
                 <span class="saudacao-usuario">Olá, <?= htmlspecialchars($dadosUsuario['nome']) ?>!</span>
-                <a href="sair.php" class="btn-login-header">Sair</a>
+                <a href="logout.php" class="btn-login-header">Sair</a>
             </div>
 
             <img src="../../assets/logo-zabeths.png" alt="Logo Zabeth's Gourmet" class="logo-home">

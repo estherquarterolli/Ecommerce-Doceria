@@ -1,95 +1,104 @@
 <?php
-require_once '../funcoes/seguranca.php';
+// 1. Inclui os arquivos necessários
 require_once '../modelos/Usuario.php';
-require_once '../funcoes/validar.php';
+require_once '../funcoes/seguranca.php';
+require_once '../funcoes/validar.php'; // Incluído para validar os dados
 
-// Se já estiver logado, vai para a página inicial
+// Se o usuário já estiver logado, redireciona para a home
 Seguranca::requerLogout();
 
-$usuarioModel = new Usuario();
-$mensagem = '';
-$tipoMensagem = '';
+$erros = [];
+$dados_submetidos = [];
 
-// Processar formulário
-if ($_POST) {
-    $dados = Seguranca::limpar($_POST);
+// 2. Bloco de processamento do formulário
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Guarda os dados submetidos para preencher o formulário em caso de erro
+    $dados_submetidos = $_POST;
 
-    // Validar dados
-    $erros = Validar::dadosCadastro($dados);
+    // 3. Valida os dados usando a sua classe Validar
+    $erros = Validar::dadosCadastro($dados_submetidos);
 
+    // 4. Se não houver erros de validação...
     if (empty($erros)) {
-        // Tentar criar usuário
+        $usuarioModel = new Usuario();
+        
+        // Tenta criar o usuário no banco
         $resultado = $usuarioModel->criar(
-            $dados['nome'],
-            $dados['email'],
-            $dados['telefone'],
-            $dados['senha']
+            $dados_submetidos['nome'],
+            $dados_submetidos['email'],
+            $dados_submetidos['telefone'],
+            $dados_submetidos['senha']
         );
 
+        // Se a criação foi bem-sucedida...
         if (isset($resultado['sucesso'])) {
-            // Login automático após cadastro
-            $login = $usuarioModel->login($dados['email'], $dados['senha']);
+            // Faz o login automático
+            $login = $usuarioModel->login($dados_submetidos['email'], $dados_submetidos['senha']);
             if (isset($login['sucesso'])) {
                 Seguranca::login($login['usuario']);
-                header("Location: inicio.php");
+                // Redireciona para a página de teste para confirmar que tudo funcionou
+                header("Location: teste_login.php");
                 exit;
             }
         } else {
-            $mensagem = $resultado['erro'];
-            $tipoMensagem = 'erro';
+            // Se o usuário já existe, adiciona o erro
+            $erros['geral'] = $resultado['erro'];
         }
-    } else {
-        $mensagem = implode(' ', $erros);
-        $tipoMensagem = 'erro';
     }
 }
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastrar | Zabeth's Gourmet</title>
+    <title>Criar Conta | Zabeth's Gourmet</title>
     <link rel="stylesheet" href="../../css/global.css">
 </head>
-
 <body>
     <main class="container-principal">
+        <aside class="coluna-ilustracao">
+            <div class="conteudo-ilustracao">
+                <img src="../../assets/logo-zabeths.png" alt="Logo Zabeth's Gourmet" class="logo-grande">
+                <h1>Crie sua conta</h1>
+                <p>E tenha acesso aos doces mais incríveis da região.</p>
+            </div>
+        </aside>
+
         <section class="coluna-formulario">
             <div class="conteudo-formulario">
                 <img src="../../assets/logo-zabeths.png" alt="Logo Zabeth's Gourmet" class="logo-pequeno">
 
-                <?php if ($mensagem): ?>
-                    <div id="mensagem-feedback">
-                        <div class="mensagem <?= $tipoMensagem === 'erro' ? 'erro' : 'sucesso' ?>">
-                            <?= $mensagem ?>
+                <div id="mensagem-feedback">
+                    <?php if (!empty($erros)): ?>
+                        <div class="mensagem erro">
+                            <?php 
+                                // Exibe o primeiro erro encontrado
+                                echo htmlspecialchars(array_values($erros)[0]); 
+                            ?>
                         </div>
-                    </div>
-                <?php endif; ?>
+                    <?php endif; ?>
+                </div>
 
                 <nav class="abas">
-                    <button class="aba" onclick="location.href='entrar.php'">ENTRAR</button>
+                    <button class="aba" onclick="location.href='login.php'">ENTRAR</button>
                     <button class="aba ativa">CRIAR CONTA</button>
                 </nav>
 
-                <form method="post" class="formulario ativo">
+                <form method="post" action="cadastrar.php" class="formulario ativo">
                     <div class="grupo-input">
                         <label for="nome">NOME COMPLETO</label>
-                        <input type="text" id="nome" name="nome" required
-                            value="<?= $_POST['nome'] ?? '' ?>">
+                        <input type="text" id="nome" name="nome" required value="<?= htmlspecialchars($dados_submetidos['nome'] ?? '') ?>">
                     </div>
 
                     <div class="grupo-input">
                         <label for="telefone">TELEFONE</label>
-                        <input type="tel" id="telefone" name="telefone" required
-                            value="<?= $_POST['telefone'] ?? '' ?>">
+                        <input type="tel" id="telefone" name="telefone" required value="<?= htmlspecialchars($dados_submetidos['telefone'] ?? '') ?>">
                     </div>
 
                     <div class="grupo-input">
                         <label for="email">EMAIL</label>
-                        <input type="email" id="email" name="email" required
-                            value="<?= $_POST['email'] ?? '' ?>">
+                        <input type="email" id="email" name="email" required value="<?= htmlspecialchars($dados_submetidos['email'] ?? '') ?>">
                     </div>
 
                     <div class="grupo-input">
@@ -106,11 +115,10 @@ if ($_POST) {
                 </form>
 
                 <p style="text-align: center; margin-top: 20px;">
-                    Já tem conta? <a href="entrar.php" style="color: var(--cor-principal);">Entrar</a>
+                    Já tem conta? <a href="login.php" style="color: var(--cor-principal);">Entrar</a>
                 </p>
             </div>
         </section>
     </main>
 </body>
-
 </html>

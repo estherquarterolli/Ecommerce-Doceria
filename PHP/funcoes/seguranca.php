@@ -27,17 +27,31 @@ class Seguranca
     {
         self::iniciarSessao();
         session_destroy();
-        header("Location: ../../integracao/entrar.php");
+        // CORREÇÃO: O caminho correto para o login a partir da pasta 'funcoes'
+        header("Location: ../paginas/login.php");
         exit;
     }
 
     public static function requerLogin()
     {
         if (!self::usuarioLogado()) {
-            header("Location: ../../integracao/entrar.php");
+            // CORREÇÃO: O caminho correto para o login
+            header("Location: ../paginas/login.php");
             exit;
         }
     }
+
+    // --- NOVA FUNÇÃO ---
+    // Impede que usuários logados acessem páginas como login e cadastro
+    public static function requerLogout()
+    {
+        if (self::usuarioLogado()) {
+            // CORREÇÃO: Redireciona para a home se já estiver logado
+            header("Location: ../paginas/home.php");
+            exit;
+        }
+    }
+
 
     public static function usuarioAtual()
     {

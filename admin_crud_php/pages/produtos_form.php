@@ -2,8 +2,11 @@
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $editing = $id > 0;
 
+// Inicializar TODAS as variáveis
 $nome = $descricao = $preco = $foto = '';
 $categoria_id = $subcategoria_id = '';
+$em_promocao = false;
+$preco_original = $data_inicio_promocao = $data_fim_promocao = '';
 
 // Buscar todas as categorias principais
 $stmt = $pdo->query("SELECT id_categoria, nome FROM categoria WHERE id_categoria_pai IS NULL ORDER BY nome");
@@ -17,11 +20,22 @@ if ($editing) {
     $stmt = $pdo->prepare("SELECT * FROM produto WHERE id_produto = ?");
     $stmt->execute([$id]);
     $row = $stmt->fetch();
-    if (!$row) { echo "Produto não encontrado."; exit; }
+    if (!$row) { 
+        echo "Produto não encontrado."; 
+        exit; 
+    }
+    
+    // Preencher todas as variáveis com dados do banco
     $nome = $row['nome']; 
     $descricao = $row['descricao']; 
     $preco = $row['preco']; 
     $foto = $row['foto'];
+    
+    // Inicializar variáveis de promoção (verificar se existem no banco)
+    $em_promocao = isset($row['em_promocao']) ? (bool)$row['em_promocao'] : false;
+    $preco_original = $row['preco_original'] ?? '';
+    $data_inicio_promocao = $row['data_inicio_promocao'] ?? '';
+    $data_fim_promocao = $row['data_fim_promocao'] ?? '';
 
     // Buscar categorias do produto
     $stmt = $pdo->prepare("
@@ -57,6 +71,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $foto = trim($_POST['foto'] ?? '');
     $categoria_id = (int)($_POST['categoria_id'] ?? 0);
     $subcategoria_id = (int)($_POST['subcategoria_id'] ?? 0);
+    
+    // Capturar dados de promoção
+    $em_promocao = isset($_POST['em_promocao']);
+    $preco_original = !empty($_POST['preco_original']) ? (float)$_POST['preco_original'] : null;
+    $data_inicio_promocao = !empty($_POST['data_inicio_promocao']) ? $_POST['data_inicio_promocao'] : null;
+    $data_fim_promocao = !empty($_POST['data_fim_promocao']) ? $_POST['data_fim_promocao'] : null;
 
     // Validar categoria
     if ($categoria_id <= 0) {
@@ -64,11 +84,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if ($editing) {
-        $stmt = $pdo->prepare("UPDATE produto SET nome=?, descricao=?, preco=?, foto=? WHERE id_produto=?");
-        $stmt->execute([$nome, $descricao, $preco, $foto, $id]);
+        // Verificar se as colunas de promoção existem na tabela
+        $stmt = $pdo->prepare("
+            UPDATE produto 
+            SET nome=?, descricao=?, preco=?, foto=?, 
+                em_promocao=?, preco_original=?, data_inicio_promocao=?, data_fim_promocao=?
+            WHERE id_produto=?
+        ");
+        $stmt->execute([
+            $nome, $descricao, $preco, $foto,
+            $em_promocao, $preco_original, $data_inicio_promocao, $data_fim_promocao,
+            $id
+        ]);
     } else {
-        $stmt = $pdo->prepare("INSERT INTO produto (nome, descricao, preco, foto) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$nome, $descricao, $preco, $foto]);
+        $stmt = $pdo->prepare("
+            INSERT INTO produto (nome, descricao, preco, foto, em_promocao, preco_original, data_inicio_promocao, data_fim_promocao) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->execute([
+            $nome, $descricao, $preco, $foto,
+            $em_promocao, $preco_original, $data_inicio_promocao, $data_fim_promocao
+        ]);
         $id = $pdo->lastInsertId();
     }
 
@@ -92,62 +128,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 <h1><?=$editing ? 'Editar' : 'Novo'?> Produto</h1>
 <form method="post" class="grid">
-    <label for="nome">Nome</label><br>
-    <input id="nome" name="nome" required value="<?=htmlspecialchars($nome)?>"><br><br>
+    <label>Nome<br><input name="nome" required value="<?=htmlspecialchars($nome)?>"></label>
+    <label>Preço<br><input name="preco" type="number" step="0.01" min="0" required value="<?=htmlspecialchars($preco)?>"></label>
+    <label>Foto (URL)<br><input name="foto" value="<?=htmlspecialchars($foto)?>"></label>
 
-    <label for="preco">Preço</label><br>
-    <input id="preco" name="preco" type="number" step="0.01" min="0" required value="<?=htmlspecialchars($preco)?>"><br><br>
-    // Adicionar após o campo de preço
     <label>Em Promoção<br>
-        <input type="checkbox" name="em_promocao" id="em_promocao" <?=$em_promocao ? 'checked' : ''?> onchange="toggleCamposPromocao()">
+        <input type="checkbox" name="em_promocao" id="em_promocao" <?= $em_promocao ? 'checked' : '' ?> onchange="toggleCamposPromocao()">
         <label for="em_promocao">Produto em promoção</label>
     </label>
 
-    <div id="campos_promocao" style="<?=$em_promocao ? '' : 'display: none;'?>">
-        <label>Preço Original (R$)<br><input name="preco_original" type="number" step="0.01" min="0" value="<?=htmlspecialchars($preco_original)?>"></label>
-        <label>Data de Início da Promoção<br><input name="data_inicio_promocao" type="date" value="<?=htmlspecialchars($data_inicio_promocao)?>"></label>
-        <label>Data de Fim da Promoção<br><input name="data_fim_promocao" type="date" value="<?=htmlspecialchars($data_fim_promocao)?>"></label>
+    <div id="campos_promocao" style="<?= $em_promocao ? '' : 'display: none;'?>">
+        <label>Preço Original (R$)<br>
+            <input name="preco_original" type="number" step="0.01" min="0" value="<?= htmlspecialchars($preco_original) ?>">
+        </label>
+        <label>Data de Início da Promoção<br>
+            <input name="data_inicio_promocao" type="date" value="<?= htmlspecialchars($data_inicio_promocao) ?>">
+        </label>
+        <label>Data de Fim da Promoção<br>
+            <input name="data_fim_promocao" type="date" value="<?= htmlspecialchars($data_fim_promocao) ?>">
+        </label>
     </div>
-    <label for="foto">Foto (URL)</label><br>
-    <input id="foto" name="foto" value="<?=htmlspecialchars($foto)?>"><br><br>
 
-    <label for="categoria_id">Categoria Principal</label><br>
-    <select name="categoria_id" id="categoria_id" required onchange="carregarSubcategorias()">
-        <option value="">— Selecione —</option>
-        <?php foreach ($categorias_principais as $cat): ?>
-            <option value="<?=$cat['id_categoria']?>" <?=$categoria_id == $cat['id_categoria'] ? 'selected' : ''?>>
-                <?=htmlspecialchars($cat['nome'])?>
-            </option>
-        <?php endforeach; ?>
-    </select><br><br>
+    <label>Categoria Principal<br>
+        <select name="categoria_id" id="categoria_id" required onchange="carregarSubcategorias()">
+            <option value="">— Selecione —</option>
+            <?php foreach ($categorias_principais as $cat): ?>
+                <option value="<?=$cat['id_categoria']?>" <?=$categoria_id == $cat['id_categoria'] ? 'selected' : ''?>>
+                    <?=htmlspecialchars($cat['nome'])?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </label>
 
-    <label for="subcategoria_id">Subcategoria</label><br>
-    <select name="subcategoria_id" id="subcategoria_id">
-        <option value="">— Selecione —</option>
-        <?php foreach ($subcategorias as $subcat): ?>
-            <option value="<?=$subcat['id_categoria']?>"
-                data-pai="<?=$subcat['id_categoria_pai']?>"
-                <?=$subcategoria_id == $subcat['id_categoria'] ? 'selected' : ''?>
-                style="display: none;">
-                <?=htmlspecialchars($subcat['nome'])?>
-            </option>
-        <?php endforeach; ?>
-    </select><br><br>
+    <label>Subcategoria<br>
+        <select name="subcategoria_id" id="subcategoria_id">
+            <option value="">— Selecione —</option>
+            <?php foreach ($subcategorias as $subcat): ?>
+                <option value="<?=$subcat['id_categoria']?>" 
+                    data-pai="<?=$subcat['id_categoria_pai']?>" 
+                    <?=$subcategoria_id == $subcat['id_categoria'] ? 'selected' : ''?>
+                    style="display: none;">
+                    <?=htmlspecialchars($subcat['nome'])?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+    </label>
 
-    <label for="descricao">Descrição</label><br>
-    <textarea id="descricao" name="descricao"><?=htmlspecialchars($descricao)?></textarea><br><br>
-
-    <button type="submit">Salvar</button>
-    <a href="produtos_list.php">Cancelar</a>
+    <label style="grid-column:1/-1">Descrição<br>
+        <textarea name="descricao" rows="5"><?=htmlspecialchars($descricao)?></textarea>
+    </label>
+    
+    <button class="btn primary" type="submit">Salvar</button>
+    <a class="btn" href="index.php?page=produtos_list">Cancelar</a>
 </form>
 
 <script>
-
-function toggleCamposPromocao() {
-    const emPromocao = document.getElementById('em_promocao').checked;
-    document.getElementById('campos_promocao').style.display = emPromocao ? 'block' : 'none';
-}
-
 function carregarSubcategorias() {
     var categoriaId = document.getElementById('categoria_id').value;
     var subcategoriaSelect = document.getElementById('subcategoria_id');
@@ -175,8 +210,14 @@ function carregarSubcategorias() {
     }
 }
 
+function toggleCamposPromocao() {
+    const emPromocao = document.getElementById('em_promocao').checked;
+    document.getElementById('campos_promocao').style.display = emPromocao ? 'block' : 'none';
+}
+
 // Disparar o evento ao carregar a página
 window.onload = function() {
     carregarSubcategorias();
+    toggleCamposPromocao(); // Garantir que os campos de promoção estejam no estado correto
 };
 </script>

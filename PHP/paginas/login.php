@@ -1,84 +1,83 @@
+<?php
+// Inclui os arquivos essenciais de uma única vez
+require_once '../modelos/Usuario.php';
+require_once '../funcoes/seguranca.php';
+
+// --- BLOCO DE PROCESSAMENTO DO FORMULÁRIO ---
+// Este código só executa se o formulário for enviado (método POST)
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    
+    // Pega o email e a senha enviados
+    $email = $_POST['email'] ?? '';
+    $senha = $_POST['senha'] ?? '';
+
+    // Tenta fazer o login usando o modelo de Usuário
+    $usuarioModel = new Usuario();
+    $resultadoLogin = $usuarioModel->login($email, $senha);
+
+    // Verifica se o login teve sucesso
+    if (isset($resultadoLogin['sucesso'])) {
+        // Se sim, inicia a sessão e redireciona para a página de teste
+        Seguranca::login($resultadoLogin['usuario']);
+        header("Location: teste_login.php");
+        exit;
+    } else {
+        // Se não, redireciona de volta para esta mesma página com uma mensagem de erro
+        header("Location: login.php?erro=login");
+        exit;
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entrar | Zabeth's Gourmet</title>
-    <link rel="stylesheet" href="../assets/css/global.css">
+    <title>Login | Zabeth's Gourmet</title>
+    <link rel="stylesheet" href="../../css/global.css">
 </head>
 <body>
+
     <main class="container-principal">
+        <aside class="coluna-ilustracao">
+            <div class="conteudo-ilustracao">
+                <img src="../../assets/logo-zabeths.png" alt="Logo Zabeth's Gourmet" class="logo-grande">
+                <h1>Bem-vindo(a) de volta!</h1>
+                <p>O sabor que você ama, a um clique de distância.</p>
+            </div>
+        </aside>
+
         <section class="coluna-formulario">
             <div class="conteudo-formulario">
-                <img src="../assets/images/logo-zabeths.png" alt="Logo Zabeth's Gourmet" class="logo-pequeno">
+                <img src="../../assets/logo-zabeths.png" alt="Logo Zabeth's Gourmet" class="logo-pequeno">
                 
-                <!-- Área para mensagens do PHP -->
-                <div id="mensagem-feedback" style="display: none;">
-                    <div class="mensagem" id="mensagem-texto"></div>
-                </div>
+                <div id="mensagem-feedback"></div>
 
                 <nav class="abas">
-                    <button class="aba ativa" id="aba-entrar">ENTRAR</button>
-                    <button class="aba" id="aba-cadastrar">CRIAR CONTA</button>
+                    <button id="aba-login" class="aba ativa" type="button">LOGIN</button>
+                    <button id="aba-cadastro" class="aba" type="button" onclick="window.location.href='cadastrar.php'">CRIAR CONTA</button>
                 </nav>
 
-                <form method="post" action="processar_login.php" class="formulario ativo" id="form-entrar">
-                    <input type="hidden" name="acao" value="login">
-                    
+                <form id="form-login" class="formulario ativo" action="login.php" method="POST">
                     <div class="grupo-input">
-                        <label for="email">EMAIL</label>
-                        <input type="email" id="email" name="email" required>
+                        <label for="login-email">EMAIL</label>
+                        <input type="text" id="login-email" name="email" required>
                     </div>
-                    
                     <div class="grupo-input">
-                        <label for="senha">SENHA</label>
-                        <input type="password" id="senha" name="senha" required>
+                        <label for="login-senha">SENHA</label>
+                        <input type="password" id="login-senha" name="senha" required>
                     </div>
-                    
-                    <a href="recuperar_senha.html" class="link-esqueci-senha">ESQUECI MINHA SENHA</a>
+                    <a href="#" class="link-esqueci-senha">ESQUECI MINHA SENHA</a>
 
                     <button type="submit" class="btn-principal">ENTRAR</button>
+                    
+                    </form>
 
-                    <div class="divisor">
-                        <span>ou</span>
-                    </div>
-
-                    <a href="#" class="btn-social google">
-                        <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google">
-                        ENTRAR COM GOOGLE
-                    </a>
-                    <a href="#" class="btn-social whatsapp">
-                        <img src="https://img.icons8.com/color/16/000000/whatsapp--v1.png" alt="WhatsApp">
-                        ENTRAR COM WHATSAPP
-                    </a>
-                </form>
-
-                <p style="text-align: center; margin-top: 20px;">
-                    Não tem conta? <a href="cadastrar.html" style="color: var(--cor-principal);">Cadastrar</a>
-                </p>
-            </div>
+                </div>
         </section>
     </main>
 
-    <script>
-        // Mostrar mensagens do PHP (se houver)
-        const urlParams = new URLSearchParams(window.location.search);
-        const mensagem = urlParams.get('mensagem');
-        const tipo = urlParams.get('tipo');
-        
-        if (mensagem) {
-            const mensagemDiv = document.getElementById('mensagem-feedback');
-            const mensagemTexto = document.getElementById('mensagem-texto');
-            
-            mensagemTexto.textContent = decodeURIComponent(mensagem);
-            mensagemTexto.className = 'mensagem ' + (tipo === 'erro' ? 'erro' : 'sucesso');
-            mensagemDiv.style.display = 'block';
-        }
-
-        // Alternar entre abas
-        document.getElementById('aba-cadastrar').addEventListener('click', function() {
-            window.location.href = 'cadastrar.html';
-        });
-    </script>
+    <script src="../../js/login.js"></script>
 </body>
 </html>
