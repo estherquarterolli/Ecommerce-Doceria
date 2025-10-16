@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos - Zabeth-doceria</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/produtos_list.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <header>
+        <img src="../../assets/logo-zabeths.png" alt="Logo Zabeths" class="logo-user">
+        <h3>ADM-esther</h3>
+        <nav>
+            <i class="fas fa-cog"></i>
+            <i class="fas fa-bell"></i>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Produtos</h1>
+        <!-- Barra de busca e filtros -->
+     <section class="barra-busca">
+    <button class="filtro-btn"><i class="fas fa-sliders-h"></i></button>
+    <input type="text" placeholder="NOME DO PRODUTO">
+    <button class="buscar-btn"><i class="fas fa-search"></i></button>
+    <button class="adicionar-btn"><i class="fas fa-plus"></i></button>
+</section>
+        <!-- Grid de produtos -->
+        <section class="produtos-grid">
+            <div class="card-produto">
+                <img src="../../assets/prodteste.jpeg" alt="Produto">
+                <div class="info-produto">
+                    <h2>NOME PRODUTO</h2>
+                    <div class="categorias">
+                        <span class="categoria-button">ITEM</span>
+                        <span class="categoria-button">ITEM</span>
+                        <span class="categoria-button">ITEM</span>
+                    </div>
+                    <p>Descrição do produto em até duas linhas, lorem ipsum dolor sit amet.</p>
+                    <div class="preco-editar">
+                        <h2>R$15,89</h2>
+                        <button class="editar">Editar</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Repita o card-produto para outros produtos -->
+            <div class="card-produto">
+                <img src="../../assets/prodteste.jpeg" alt="Produto">
+                <div class="info-produto">
+                    <h2>NOME PRODUTO</h2>
+                    <div class="categorias">
+                        <span class="categoria-button">ITEM</span>
+                        <span class="categoria-button">ITEM</span>
+                        <span class="categoria-button">ITEM</span>
+                    </div>
+                    <p>Descrição do produto em até duas linhas, lorem ipsum dolor sit amet.</p>
+                    <div class="preco-editar">
+                        <h2>R$15,89</h2>
+                        <button class="editar">Editar</button>
+                    </div>
+                </div>
+            </div>
+            <!-- ...mais cards conforme necessário... -->
+        </section>
+
+        <!-- Botões de ação -->
+        <section class="acoes-produtos">
+            <button class="ver-mais-btn">Ver mais</button>
+            <button class="adicionar-btn">Adicionar</button>
+        </section>
+
+
+        <!-- Seção Banner -->
+        <section class="banner-produtos">
+            <img src="../../assets/banner1.jpeg" alt="Banner Produtos" class="banner-img">
+            <nav>
+                <button><i class="fas fa-chevron-left"></i></button>
+                <button><i class="fas fa-chevron-right"></i></button>
+            </nav>
+        </section>
+
+        <!-- Seção Inventário -->
+        <section class="inventario-produtos">
+            <h2>Inventário</h2>
+            <div class="inventario-lista">
+            <div class="item-inventario">
+                <span class="nome-produto">Brigadeiro Gourmet</span>
+                <span class="quantidade">Estoque: 120</span>
+            </div>
+            <div class="item-inventario">
+                <span class="nome-produto">Bolo de Pote</span>
+                <span class="quantidade">Estoque: 45</span>
+            </div>
+            <div class="item-inventario">
+                <span class="nome-produto">Brownie</span>
+                <span class="quantidade">Estoque: 60</span>
+            </div>
+            <!-- Adicione mais itens conforme necessário -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <nav>
+            <a href="index.php?page=dashboard_home">
+                <i class="fas fa-tachometer-alt"></i>
+                <h3>Dashboard</h3>
+            </a>
+            <a href="index.php?page=produtos_list" class="ativa">
+                <i class="fas fa-box"></i>
+                <h3>Produtos</h3>
+            </a>
+            <a href="index.php?page=pedidos_list">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>Pedidos</h3>
+            </a>
+        </nav>
+    </footer>
+</body>
+</html>

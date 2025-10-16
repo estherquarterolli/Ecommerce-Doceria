@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zabeth-doceria</title>
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+   <header> <!--  menu cabeçalho -->
+     <img src="../../assets/logo-zabeths.png" alt="Logo Zabeths" class="logo-user">
+     <h3> ADM-teste </h3>   <!--PHP aqui-->
+     <nav>
+        <i class="fas fa-cog"></i>
+        <i class="fas fa-bell"></i>
+     </nav>
+    </header>
+   
+       
+        <section class="caixas">  <!--  caixas de resumo -->
+          
+        <div class="caixa" id="cardVenda">
+            <h1> Vendas de hoje</h1>
+            <h2>R$ 00,00</h2> <!-- PHP aqui-->
+        </div>
+
+        <div class="caixa" id="cardClientes">
+            <h1>clientes novos</h1>
+            <h2>00</h2> <!-- PHP aqui-->
+        </div>
+
+        <div class="caixa" id="cardPedidos">
+            <h1>Pedidos feitos hoje:</h1>
+            <h2>00</h2> <!-- PHP aqui-->
+       </div>
+
+       </section>
+ <main>  <!--  conteudo principal e graficos -->
+    <section class="graficos">
+        <h1>Grafico Semanal:</h1>
+        <div class="grafico" id="graficoCategoria">
+            <!-- Api? -->
+        </div>
+
+        <div class="grafico" id="graficoPorcentagemTotal">
+            <!-- Api? -->
+        </div>
+    </section>
+
+  <section class="maispedidos">
+      <h1>Mais Pedidos:</h1>
+      <div class="pedido"><!-- Talvez dê para usar o PHP aqui para subistituir?-->
+    <img src="../../assets/prodteste.jpeg" alt="teste">
+    <div class="info-pedido">
+        <header>  <!--cabeçalho do pedido-->
+             <h2>Nome do Produto</h2> 
+             <div class="categoria-button">categoria 1 </div>
+             <div class="categoria-button">categoria 2 </div>
+             <div class="categoria-button">categoria 3 </div>
+        </header>
+       
+        <h3>Quantidade Pedida: 00</h3> <!-- deve aparecer destacado de algum modo(pensei em colocar ele na imagem ou o numero de pedidos por cima do pedido completo)--> 
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p> <!-- descrição do produto-->
+        <div class="preco-editar">
+            <h2>R$ 00,00</h2> <!-- preço do produto-->
+            <button class="editar">Editar</button>
+        </div>
+    </div>
+      </div>
+
+  </section>
+    </main>
+   <footer> 
+    <nav>
+        <a href="index.php?page=dashboard_home" class="ativa">
+        <i class="fas fa-tachometer-alt"></i>
+            <h3>Dashboard</h3>
+    </a>
+         <a href="index.php?page=produtos_list">
+            <i class="fas fa-box"></i>
+        <h3>Produtos</h3>
+    </a>
+    <a href="index.php?page=pedidos_list">
+    <i class="fas fa-shopping-cart"></i>
+    <h3>Pedidos</h3>
+    </div>
+    </nav>
+    </div>
+   </footer>
+</body>
+</html>

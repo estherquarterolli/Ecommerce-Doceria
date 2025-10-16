@@ -1,0 +1,105 @@
+/* admin_crud_php/css/base_admin.css */
+
+/* Definições de Cores e Fontes (Global/Admin) */
+:root {
+    --cor-principal: #8B1A4B; /* Rosa Escuro Zabeth's Gourmet */
+    --cor-principal-claro: #c75e81; 
+    --cor-fundo-admin: #f5f5f5; 
+    --cor-fundo-card: #ffffff; 
+    --cor-fundo-cabecalho: #4a69bd; /* Azul Escuro */
+    --cor-fundo-cabecalho-gradient: #6a5acd; /* Roxo do gradiente */
+    --cor-texto-escuro: #333333;
+    --cor-texto-claro: #ffffff;
+    --cor-borda-card: #e0e0e0;
+}
+
+/* Reset Básico e Body */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--cor-fundo-admin);
+    color: var(--cor-texto-escuro);
+    padding-bottom: 70px; /* Espaço para o footer fixo */
+}
+
+/* ================== HEADER (Comum a todas as páginas) ================== */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, var(--cor-fundo-cabecalho), var(--cor-fundo-cabecalho-gradient));
+    color: var(--cor-texto-claro);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.logo-user {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid white;
+}
+
+header h3 {
+    flex-grow: 1;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+header nav i {
+    font-size: 1.4rem;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+/* ================== FOOTER FIXO (Comum a todas as páginas) ================== */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--cor-fundo-card);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+footer nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 5px 0;
+}
+
+footer nav a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #999;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+footer nav a i {
+    font-size: 1.4rem;
+    margin-bottom: 3px;
+}
+
+footer nav a h3 {
+    margin: 0;
+    font-size: 0.7rem;
+}
+
+/* Estilo do item de navegação ATIVO */
+footer nav a.ativa {
+    color: var(--cor-fundo-cabecalho);
+    background-color: #e8ebf3; /* Fundo azul bem clarinho */
+    font-weight: 700;
+}

@@ -8,6 +8,8 @@ $allowed_pages = [
     'pedidos_list', 'itens_pedido_list',
     'categorias_list', 'categorias_form', 'categorias_delete',
     'cupons_list', 'cupons_form', 'cupons_delete', 'cupons_produtos'
+ /* , 'home_dashboard', 'home_produto'  */
+
 ];
 
 $page = $_GET['page'] ?? 'clientes_list';

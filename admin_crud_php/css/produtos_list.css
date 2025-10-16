@@ -1,0 +1,353 @@
+/* admin_crud_php/css/produtos_list.css - Estilos ESPECÍFICOS da página de produtos */
+
+:root {
+    --cor-principal: #8B1A4B;
+    --cor-principal-claro: #c75e81;
+    --cor-fundo-admin: #f5f5f5;
+    --cor-azul-header: #3b5998;
+    --cor-texto-escuro: #333333;
+    --cor-texto-claro: #ffffff;
+    --cor-borda-card: #e0e0e0;
+}
+
+/* 1. Layout principal */
+/* admin_crud_php/css/produtos.css - ESTILOS ESPECÍFICOS DA PÁGINA DE PRODUTOS */
+
+/* Os estilos para body, header e footer vêm de base_admin.css */
+
+main {
+    padding: 20px 10px 0 10px; /* Menos padding lateral para telas pequenas */
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Título Produtos */
+main > h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+/* ================== 1. BARRA DE BUSCA E FILTROS (CORREÇÃO) ================== */
+.barra-busca {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+/* Estilo para os botões arredondados (Filtro e Adicionar) */
+.barra-busca button {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: var(--cor-texto-claro);
+}
+
+.filtro-btn {
+    background-color: var(--cor-fundo-cabecalho);
+}
+
+.adicionar-btn:last-of-type {
+    background-color: var(--cor-principal);
+}
+
+/* Campo de Busca (Input) */
+.barra-busca input {
+    flex: 1 1 180px;
+    min-width: 0;
+    background-color: var(--cor-fundo-card);
+    border: 1px solid var(--cor-borda-card);
+    border-radius: 22px; 
+    padding: 10px 15px; 
+    font-size: 1rem;
+    color: var(--cor-texto-escuro);
+    height: 44px;
+    /* Correção: Remove o botão de busca da estrutura do input */
+}
+@media (max-width: 600px) {
+
+    .barra-busca input {
+        font-size: 0.6rem;
+        padding: 8px 12px;
+        height: 40px;
+    }
+}
+
+/* O Botão de Busca na Barra deve ser ajustado no HTML ou removido se o filtro já bastar */
+/* Se você manteve o botão de busca extra (fa-search) */
+.barra-busca .buscar-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--cor-fundo-cabecalho); /* Usando a cor do filtro */
+}
+
+/* ================== 2. GRID DE PRODUTOS (AJUSTE) ================== */
+.produtos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Sempre 2 colunas */
+    gap: 18px;
+    margin-bottom: 20px;
+    padding: 0 2px;
+}
+
+.card-produto {
+    background-color: var(--cor-fundo-card);
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    overflow: hidden;
+}
+
+.card-produto img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    display: block;
+}
+
+/* Ajuste na área de info para garantir padding e alinhamento */
+.info-produto {
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #fde7f0);
+    padding: 10px 5px;
+    display: flex; /* Transforma em flex para controle vertical */
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 0; /* Remove padding inferior */
+    text-align: left; /* Alinha o texto à esquerda */
+    min-height: 140px; /* Garante altura mínima */
+}
+
+.card-produto h2 {
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 3px; /* Reduz margem */
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--cor-principal);
+    margin-bottom: 4px;
+    align-self: flex-start;
+    padding-left: 5px;
+}
+
+/* Correção das Tags de Categoria (Layout e Espaçamento) */
+.card-produto .categorias {
+    display: flex;
+    justify-content: flex-start; /* Alinha as tags à esquerda */
+    flex-wrap: wrap;
+    min-height: 25px;
+    margin-bottom: 8px;
+    width: 100%;
+    padding-left: 5px;
+    margin-bottom: 5px; /* Reduz margem */
+}
+
+.card-produto .categoria-button {
+    display: inline-block;
+    background-color: var(--cor-principal-claro);
+    color: var(--cor-texto-claro);
+    border-radius: 5px;
+
+    font-weight: 500;
+    font-size: 0.55rem; /* Era 0.6rem */
+    padding: 0.4rem; /* Reduz padding */
+    margin-right: 2px; /* Reduz espaçamento entre tags */
+    margin-bottom: 2px;
+}
+
+.card-produto p {
+ 
+    color: #666;
+
+ 
+    overflow: hidden;
+    align-self: flex-start;
+    padding-left: 5px;
+
+    /* NOVO: Reduz o tamanho da fonte da descrição e a margem */
+    font-size: 0.6rem; /* Era 0.65rem */
+   
+    margin-bottom: 5px; /* Era 8px */
+    height: 2rem; /* mostra a descrição do produto */
+    line-height: 1.1; /* Linha mais apertada */
+    
+    /* Regras para garantir que o texto não ultrapasse a tela */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limita a descrição a 2 linhas */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    
+    align-self: flex-start;
+    padding-left: 5px;
+}
+
+/* Correção da área Preço + Botão Editar */
+.card-produto .preco-editar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5px 5px 5px; /* Era 10px de bottom padding */
+    width: 100%; 
+    margin-top: auto;
+}
+
+.card-produto .preco-editar h2 {
+ /* NOVO: Reduz o tamanho da fonte do preço */
+    font-size: 0.95rem; /* Era 1rem */
+    margin: 0;
+    color: var(--cor-texto-escuro);
+}
+
+.card-produto .editar {
+    background-color: var(--cor-principal-claro);
+    color: white;
+    border: none;
+    /* NOVO: Reduz o tamanho do botão "Editar" */
+    padding: 4px 8px; /* Era 5px 10px */
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: 500;
+}
+
+/* ================== 3. BOTÕES DE AÇÃO (Ver mais / Adicionar) ================== */
+.acoes-produtos {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.ver-mais-btn, .adicionar-btn:last-of-type {
+    flex: 1;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+}
+
+.ver-mais-btn {
+    background-color: var(--cor-fundo-cabecalho);
+    color: white;
+}
+
+.adicionar-btn:last-of-type {
+    background-color: var(--cor-principal);
+    color: white;
+}
+/* 5. SEÇÃO BANNER */
+.banner-produtos {
+    position: relative;
+    margin-bottom: 30px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.banner-produtos .banner-img {
+    width: 100%;
+    height: 180px; /* Altura fixa para o banner */
+    object-fit: cover;
+    display: block;
+}
+
+.banner-produtos nav {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0 10px;
+}
+
+.banner-produtos button {
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    color: var(--cor-principal);
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.banner-produtos button:focus {
+    outline: none;
+}
+
+/* 6. SEÇÃO INVENTÁRIO */
+.inventario-produtos h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cor-texto-escuro);
+    margin-bottom: 15px;
+    padding: 0;
+}
+
+.item-inventario {
+    display: flex;
+    align-items: center;
+    background-color: var(--cor-texto-claro);
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.item-inventario .nome-produto {
+    flex-grow: 1;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--cor-texto-escuro);
+}
+
+.item-inventario .quantidade {
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+    min-width: 50px;
+}
+
+/* Classes para cores de estoque (verde, amarelo, vermelho) */
+/* Você deve adicionar essas classes dinamicamente com PHP */
+.estoque-alto { background-color: #2ecc71; }    /* Verde - 30 */
+.estoque-medio { background-color: #f1c40f; }   /* Amarelo - 10 */
+.estoque-baixo { background-color: #e74c3c; }   /* Vermelho - 0 */
+
+
+/* RESPONSIVIDADE PARA DESKTOP */
+@media (min-width: 768px) {
+    .produtos-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .barra-busca { max-width: 800px; margin-left: auto; margin-right: auto; }
+    .acoes-produtos { max-width: 500px; margin: 0 auto 30px auto; }
+}
+
+@media (min-width: 900px) {
+    main {
+        max-width: 900px;
+    }
+    .produtos-grid {
+        grid-template-columns: repeat(4, 1fr); /* 4 colunas só em telas bem grandes */
+        gap: 24px;
+        padding: 0 20px;
+    }
+}

@@ -1,0 +1,350 @@
+/* admin_crud_php/css/dashboard.css (Revisado) */
+
+:root {
+    /* Cores base do projeto */
+    --cor-principal: #8B1A4B; 
+    --cor-principal-claro: #c75e81; 
+    --cor-fundo-admin: #f5f5f5;
+    --cor-azul-header: #3b5998; /* Tom de azul do protótipo */
+    --cor-texto-escuro: #333333;
+    --cor-texto-claro: #ffffff;
+    --cor-borda-card: #e0e0e0;
+    --cor-vendas-alta: #27ae60;
+}
+
+/* Base e Layout Principal */
+body {
+    background-color: var(--cor-fundo-admin);
+    font-family: 'Poppins', sans-serif;
+    padding: 0;
+    padding-bottom: 70px; /* Espaço para o footer fixo */
+}
+
+main {
+    padding: 20px;
+    padding-top: 10px; /* Reduz o padding superior */
+}
+
+h1 {
+    font-size: 1.5rem;
+    color: var(--cor-texto-escuro);
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+/* ================== 1. HEADER ================== */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    /* Gradiente roxo-azulado do protótipo */
+    background: linear-gradient(90deg, #4a69bd, #6a5acd); 
+    color: var(--cor-texto-claro);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-bottom: 0;
+    min-height: 60px;
+}
+
+.logo-user {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 2px solid white;
+}
+
+header h3 {
+    flex-grow: 1;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+header nav i {
+    font-size: 1.4rem;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+/* Título Dashboard Abaixo do Header */
+main > h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--cor-texto-escuro);
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+/* ================== 2. CAIXAS DE RESUMO (KPIs) ================== */
+.caixas {
+    display: flex;
+    flex-wrap: wrap; /* Para garantir responsividade */
+    justify-content: space-between;
+    gap: 10px;
+    padding: 0 0 20px 0;
+}
+
+.caixa {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--cor-texto-claro);
+    padding: 10px 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    min-width: 100px; /* Para não quebrar demais em telas muito pequenas */
+}
+
+.caixa h1 {
+    font-size: 0.75rem;
+    color: var(--cor-texto-escuro);
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+}
+
+.caixa h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-top: 5px;
+}
+
+/* Estilos Específicos por Card */
+#cardVenda {
+    /* Cor de borda principal do projeto */
+    border: 1px solid var(--cor-principal); 
+    color: var(--cor-principal);
+}
+#cardVenda h2 {
+    color: var(--cor-principal);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+/* Estilize a seta e o ícone aqui se adicioná-los no HTML */
+
+
+#cardClientes, #cardPedidos {
+    border: 1px solid var(--cor-azul-header);
+    color: var(--cor-azul-header);
+}
+
+@media (min-width: 600px) {
+    .caixa {
+        flex-basis: 30%; /* Três colunas em telas maiores */
+    }
+}
+
+
+/* ================== 3. CONTEÚDO PRINCIPAL (GRÁFICOS E PRODUTOS) ================== */
+.graficos-container { /* Novo div para envolver os gráficos no protótipo */
+    background-color: var(--cor-texto-claro);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+}
+
+.graficos {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-between;
+}
+
+.graficos h1 {
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--cor-texto-escuro);
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+/* Placeholder para os gráficos (Adaptação para o protótipo final) */
+#graficoCategoria { 
+    width: 100%;
+    min-height: 200px; 
+    border: 1px dashed var(--cor-borda-card);
+    margin-bottom: 15px;
+}
+
+#graficoPorcentagemTotal {
+    width: 100%;
+    min-height: 150px; 
+    border: 1px dashed var(--cor-borda-card);
+}
+
+@media (min-width: 768px) {
+    .graficos {
+        /* Se for para ter 2 colunas */
+        justify-content: flex-start;
+        gap: 20px;
+    }
+    #graficoCategoria { 
+        width: 65%; /* Gráfico de barras na esquerda */
+        margin-bottom: 0;
+    }
+    #graficoPorcentagemTotal {
+        width: 30%; /* Gráfico de pizza na direita */
+        min-height: 200px;
+    }
+}
+
+
+/* ================== 4. MAIS PEDIDOS (Card de Produto) ================== */
+.maispedidos {
+    background-color: var(--cor-texto-claro);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.maispedidos h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--cor-texto-escuro);
+    padding: 0;
+    margin-bottom: 15px;
+}
+
+.pedido {
+    display: flex;
+    flex-direction: column; /* Colunas para mobile */
+    align-items: center;
+    background-color: #fcfcfc;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.maispedidos img {
+    width: 100%;
+    max-width: 150px; /* Limita o tamanho da imagem em telas maiores */
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.info-pedido {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.info-pedido header {
+    display: block;
+    padding: 0;
+    background: none;
+    box-shadow: none;
+    margin-bottom: 10px;
+}
+
+.info-pedido header h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--cor-principal);
+    margin-bottom: 5px;
+}
+
+.categoria-button {
+    display: inline-block;
+    font-size: 0.7rem;
+    background-color: var(--cor-principal);
+    color: var(--cor-texto-claro);
+    padding: 3px 6px;
+    border-radius: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.info-pedido h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--cor-texto-escuro);
+    margin: 5px 0;
+}
+
+.info-pedido p {
+    font-size: 0.75rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.info-pedido footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.info-pedido footer h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--cor-texto-escuro);
+}
+
+.info-pedido .editar {
+    background-color: var(--cor-principal);
+    color: rgb(255, 255, 255);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Ajuste para desktop: Imagem e Info lado a lado */
+@media (min-width: 600px) {
+    .pedido {
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 20px;
+    }
+    .maispedidos img {
+        width: 100px;
+        height: 100px;
+        margin-right: 20px;
+        margin-bottom: 0;
+        max-width: none;
+    }
+}
+
+
+/* ================== 5. FOOTER FIXO ================== */
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--cor-texto-claro);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+footer nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+
+footer nav a,
+footer nav div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #999;
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+/* Item Ativo (Dashboard) */
+footer nav .ativa {
+    color: var(--cor-principal);
+    font-weight: 700;
+}
